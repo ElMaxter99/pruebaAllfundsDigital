@@ -8,13 +8,19 @@ module.exports = {
         const page = parseInt((req.query.page || 0).toString(), 10);
         const limit = parseInt((req.query.limit || 10).toString(), 10);
 
+        var filtro = {};
+      
+        /**
+         * Query para filtrar si los documentos han sido archivados TRUE o si son new FALSE
+         * en caso de no usarse este filtro devuelve toda la coleccion
+         * req.query.filtro = true ->
+         */
+        if (req.query.filtro) filtro = {archiveDate: { $exists: req.query.filtro }}
 
-        await Document.find({}).skip(page * limit).limit(limit).exec((err, docs) => {
+        await Document.find(filtro).sort({'date' : 'desc'}).skip(page * limit).limit(limit).exec((err, docs) => {
             if (err) return res.status(500).json(err)
             return res.status(200).json(docs);
         });
-
-
 
     },
 
