@@ -19,10 +19,11 @@ export class NewPageComponent implements OnInit, OnDestroy {
 
     // Optimizar la subscripcion
     console.log('Abriendo observable...');
-
+    
     this.suscription = this.apiService.refresh$.subscribe(() => {
       this.getDocuments();
     });
+    
   }
   // Evitamos fugas de memoria
   ngOnDestroy(): void {

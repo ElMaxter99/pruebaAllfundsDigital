@@ -20,10 +20,11 @@ module.exports = {
         {
             filtro = {archiveDate: { $exists: req.query.filtro }}
             //Si es true ordenaremos por archiveDate
-            sort = {'archiveDate' : 'desc'}; 
+            if ( req.query.filtro == true )  sort = {'archiveDate' : 'desc'}; 
+           
         }
 
-        await Document.find(filtro).sort(sort).skip(page * limit).limit(limit).exec((err, docs) => {
+        await Document.find(filtro).sort({'date' : 'desc'}).skip(page * limit).limit(limit).exec((err, docs) => {
             if (err) return res.status(500).json(err)
             return res.status(200).json(docs);
         });
