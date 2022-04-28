@@ -1,1 +1,7 @@
-<p>archived-page works!</p>
+<div class="row">
+        
+    <div *ngFor ="let doc of newDocumentsList">
+        <app-document-card [documento]="doc"></app-document-card>
+    </div>
+        
+</div>

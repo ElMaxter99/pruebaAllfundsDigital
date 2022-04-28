@@ -1,0 +1,18 @@
+/*
+texto {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+}
+caja {
+    overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -moz-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  height: px;
+}
+*/

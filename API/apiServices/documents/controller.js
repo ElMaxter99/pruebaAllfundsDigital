@@ -13,7 +13,7 @@ module.exports = {
         /**
          * Query para filtrar si los documentos han sido archivados TRUE o si son new FALSE
          * en caso de no usarse este filtro devuelve toda la coleccion
-         * req.query.filtro = true ->
+         * req.query.filtro = true -> archiveDate Exists
          */
         if (req.query.filtro) filtro = {archiveDate: { $exists: req.query.filtro }}
 
