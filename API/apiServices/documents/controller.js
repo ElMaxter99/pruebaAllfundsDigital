@@ -9,15 +9,21 @@ module.exports = {
         const limit = parseInt((req.query.limit || 10).toString(), 10);
 
         var filtro = {};
+        var sort = {'date' : 'desc'};
       
         /**
          * Query para filtrar si los documentos han sido archivados TRUE o si son new FALSE
          * en caso de no usarse este filtro devuelve toda la coleccion
          * req.query.filtro = true -> archiveDate Exists
          */
-        if (req.query.filtro) filtro = {archiveDate: { $exists: req.query.filtro }}
+        if (req.query.filtro) 
+        {
+            filtro = {archiveDate: { $exists: req.query.filtro }}
+            //Si es true ordenaremos por archiveDate
+            sort = {'archiveDate' : 'desc'}; 
+        }
 
-        await Document.find(filtro).sort({'date' : 'desc'}).skip(page * limit).limit(limit).exec((err, docs) => {
+        await Document.find(filtro).sort(sort).skip(page * limit).limit(limit).exec((err, docs) => {
             if (err) return res.status(500).json(err)
             return res.status(200).json(docs);
         });
@@ -25,7 +31,6 @@ module.exports = {
     },
 
     async createDocument(req, res) {
-        console.log(req.body); 
         // Lo correcto no seria devolver asi la respuesta, pero lo dejo para desmotracion :)
         if (!req.body.title) return res.status(400).json({mensaje:"No ha llegado el title"});
         if (!req.body.description) return res.status(400).json({mensaje:"No ha llegado el description"});
