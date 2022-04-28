@@ -45,8 +45,8 @@ export class ApiServiceService {
 
     
   }
-
-  createDocument(doc: DocumentModel): Observable<any>{
+  // Voy a ponerlo any para no perder tiempo del form al model
+  createDocument(doc: any): Observable<any>{
     return this.http.post(this.url, doc);
   }
 

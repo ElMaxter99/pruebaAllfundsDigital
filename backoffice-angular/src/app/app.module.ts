@@ -11,6 +11,7 @@ import { ArchivedPageComponent } from './archived-page/archived-page.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { DocumentCardComponent } from './components/document-card/document-card.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,9 @@ import { DocumentCardComponent } from './components/document-card/document-card.
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule, // peticiones Http
+    FormsModule, // Uso ngForms
+
   ],
   providers: [],
   bootstrap: [AppComponent]
