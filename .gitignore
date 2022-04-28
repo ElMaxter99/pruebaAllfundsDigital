@@ -1,5 +1,6 @@
 API/node_modules/
 backoffice-angular/node_modules/
+backoffice-angular/.vscode
 
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
