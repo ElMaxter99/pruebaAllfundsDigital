@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 import { ApiServiceService } from '../services/api-service.service';
 
 @Component({
@@ -8,27 +8,15 @@ import { ApiServiceService } from '../services/api-service.service';
   templateUrl: './new-page.component.html',
   styleUrls: ['./new-page.component.css'],
 })
-export class NewPageComponent implements OnInit, OnDestroy {
-  suscription!: Subscription;
+export class NewPageComponent implements OnInit {
   newDocumentsList!: any;
 
-  constructor(private apiService: ApiServiceService) {}
+  constructor(private router: Router, private apiService: ApiServiceService) {}
 
   ngOnInit(): void {
+    this.apiService.connectSocket();
     this.getDocuments();
-
-    // Optimizar la subscripcion
-    console.log('Abriendo observable...');
-    
-    this.suscription = this.apiService.refresh$.subscribe(() => {
-      this.getDocuments();
-    });
-    
-  }
-  // Evitamos fugas de memoria
-  ngOnDestroy(): void {
-    this.suscription.unsubscribe();
-    console.log('Observable Cerrado');
+    this.recieveDocUpdate();
   }
 
   async getDocuments() {
@@ -42,25 +30,26 @@ export class NewPageComponent implements OnInit, OnDestroy {
     );
   }
 
-  //documentar
+  //Enviar form
   onSubmit(f: NgForm) {
     this.addDocument(f.value);
     f.reset();
-
+    this.apiService.sendDocUpdate();
   }
 
-  // documentar
+  // hacer peticion crear document
   async addDocument(f: any) {
     await this.apiService.createDocument(f).subscribe(
-      (data) => {
-        // por devolver algo
-        console.log(data)
-      },
+      (data) => {},
       (err) => {
         console.log(err);
       }
     );
   }
 
-  
+  recieveDocUpdate() {
+    this.apiService.recieveDocUpdate().subscribe((data) => {
+      this.getDocuments();
+    });
+  }
 }

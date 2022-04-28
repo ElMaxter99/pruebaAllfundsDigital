@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 import { ApiServiceService } from '../services/api-service.service';
 
 @Component({
@@ -7,26 +7,17 @@ import { ApiServiceService } from '../services/api-service.service';
   templateUrl: './archived-page.component.html',
   styleUrls: ['./archived-page.component.css'],
 })
-export class ArchivedPageComponent implements OnInit, OnDestroy {
-  suscription!: Subscription;
+export class ArchivedPageComponent implements OnInit {
 
   newDocumentsList!: any;
 
-  constructor(private apiService: ApiServiceService) {}
+  constructor(private router: Router, private apiService: ApiServiceService) {}
 
   ngOnInit(): void {
+    this.apiService.connectSocket();
     this.getDocuments();
-    // Optimizar la subscripcion
-    console.log('Abriendo observable...');
-    this.suscription = this.apiService.refresh$.subscribe(() => {
-      this.getDocuments();
-    });
-  }
+    this.recieveDocUpdate();
 
-  // Evitamos fugas de memoria
-  ngOnDestroy(): void {
-    this.suscription.unsubscribe();
-    console.log('Observable Cerrado');
   }
 
   async getDocuments() {
@@ -38,5 +29,12 @@ export class ArchivedPageComponent implements OnInit, OnDestroy {
         console.log(err);
       }
     );
+  }
+
+
+  recieveDocUpdate() {
+    this.apiService.recieveDocUpdate().subscribe((data) => {
+      this.getDocuments();
+    });
   }
 }
