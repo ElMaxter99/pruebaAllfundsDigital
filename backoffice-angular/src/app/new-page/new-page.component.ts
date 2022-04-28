@@ -42,15 +42,15 @@ export class NewPageComponent implements OnInit, OnDestroy {
   }
 
   //documentar
-  async onSubmit(f: NgForm) {
-    await this.addDocument(f.value);
+  onSubmit(f: NgForm) {
+    this.addDocument(f.value);
     f.reset();
 
   }
 
   // documentar
-  addDocument(f: any) {
-    this.apiService.createDocument(f).subscribe(
+  async addDocument(f: any) {
+    await this.apiService.createDocument(f).subscribe(
       (data) => {
         // por devolver algo
         console.log(data)
