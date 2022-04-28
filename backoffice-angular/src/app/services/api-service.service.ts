@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject, tap } from 'rxjs';
 import { DocumentModel } from '../shared/models/DocumentModel';
 
 @Injectable({
@@ -13,11 +13,22 @@ export class ApiServiceService {
   private endPoint: string = "/v1/documents";
   private url = this.URI+this.endPoint;
 
+  private _refresh$ = new Subject<void> ();
+
+
+
+
   constructor(private http: HttpClient) { }
 
   
-
   //Tipar bien
+  
+  /**
+   * 
+   *  CRUD
+   * 
+   */
+
   /**
    * He hecho el método para devolver documentos new o archived SOLAMENTE
    * @param archivedDocument 
@@ -26,11 +37,16 @@ export class ApiServiceService {
   getDocuments(archivedDocument: Boolean): Observable<any>{
     
     let params = new HttpParams().set('filtro', String(archivedDocument));
-    return this.http.get(this.url, {params})
+    return this.http.get(this.url, {params}).pipe(
+      tap(()=> {
+        this._refresh$.next();
+      })
+      )
+
     
   }
-
-  createDocument(doc: DocumentModel): Observable<any>{
+  // Voy a ponerlo any para no perder tiempo del form al model
+  createDocument(doc: any): Observable<any>{
     return this.http.post(this.url, doc);
   }
 
@@ -40,6 +56,16 @@ export class ApiServiceService {
 
   archivarDocument(id: String): Observable<any>{
     return this.http.patch(`${this.url}/${id}`, {});
+  }
+
+
+
+  /**
+   * EXTRA
+   */
+
+  get refresh$() {
+    return this._refresh$;
   }
 
 

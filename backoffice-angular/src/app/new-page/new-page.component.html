@@ -1,7 +1,66 @@
 <div class="row">
-        
-        <div *ngFor ="let doc of newDocumentsList">
-            <app-document-card [documento]="doc"></app-document-card>
+
+  <form class="border border-primary rounded" #docForm = "ngForm" (ngSubmit)="onSubmit(docForm)">
+    <div class="form-row">
+      <div class="row">
+        <div class="col-6">
+          <label for="inputTitle">Title</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Title"
+            id="inputTitle"
+            name="title"
+            required 
+            ngModel
+          />
         </div>
-            
+        <div class="col-6">
+          <label for="inputAuthor">Author</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Author"
+            id="inputAuthor"
+            name="author"
+            required 
+            ngModel
+          />
+        </div>
+
+        <div class="col-12">
+          <label for="inputContent">Content</label>
+          <textarea
+            class="form-control"
+            id="inputContent"
+            rows="3"
+            name="content"
+            required 
+            ngModel
+          ></textarea>
+        </div>
+
+        <div class="col-12">
+            <label for="inputDescription">Description</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Description"
+              id="inputDescription"
+              name="description"
+              required 
+              ngModel
+            />
+          </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <button type="button" class="btn btn-primary btn-lg col-10 my-2" type="submit" [disabled]="!docForm.form.valid">📖Agregar✏️</button>
+    </div>
+
+  </form>
+
+  <div *ngFor="let doc of newDocumentsList">
+    <app-document-card [documento]="doc"></app-document-card>
+  </div>
 </div>
