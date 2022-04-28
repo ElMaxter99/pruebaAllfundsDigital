@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ApiServiceService } from 'src/app/services/api-service.service';
 import { DocumentModel } from 'src/app/shared/models/DocumentModel';
 
@@ -15,22 +16,21 @@ export class DocumentCardComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  archivarDocumento() {
-    this.apiService.archivarDocument(this.documento._id!).subscribe(
+  async archivarDocumento() {
+    await this.apiService.archivarDocument(this.documento._id!).subscribe(
       (data) => {
-        console.log(data);
+        this.apiService.sendDocUpdate();
       },
       (err) => {
         console.log(err);
       }
     );
-    
   }
 
-  eliminarDocumento() {
-    this.apiService.deleteDocument(this.documento._id!).subscribe(
+  async eliminarDocumento() {
+    await this.apiService.deleteDocument(this.documento._id!).subscribe(
       (data) => {
-        console.log(data);
+        this.apiService.sendDocUpdate();
       },
       (err) => {
         console.log(err);
