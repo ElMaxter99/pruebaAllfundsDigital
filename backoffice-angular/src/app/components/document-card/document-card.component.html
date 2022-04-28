@@ -22,5 +22,8 @@
       <button *ngIf="documento.archiveDate" type="button" class="btn btn-danger" (click)="eliminarDocumento()">❌Eliminar❌</button>
 
     </div>
+    <p *ngIf="documento.archiveDate">
+      Fecha archivado: {{documento.archiveDate | date: 'medium' }}
+    </p>
   </div>
 </div>
