@@ -9,11 +9,13 @@ import { DocumentModel } from '../shared/models/DocumentModel';
 
 export class ApiServiceService {
 
-  constructor(private http: HttpClient) { }
-
   private URI: string = "http://localhost:8000"
   private endPoint: string = "/v1/documents";
   private url = this.URI+this.endPoint;
+
+  constructor(private http: HttpClient) { }
+
+  
 
   //Tipar bien
   /**
@@ -21,22 +23,22 @@ export class ApiServiceService {
    * @param archivedDocument 
    * @returns 
    */
-  async getDocuments(archivedDocument: Boolean){
+  getDocuments(archivedDocument: Boolean): Observable<any>{
     
     let params = new HttpParams().set('filtro', String(archivedDocument));
     return this.http.get(this.url, {params})
     
   }
 
-  async createDocument(doc: DocumentModel){
+  createDocument(doc: DocumentModel): Observable<any>{
     return this.http.post(this.url, doc);
   }
 
-  async deleteDocument(id: String) {
+  deleteDocument(id: String): Observable<any> {
     return this.http.delete(`${this.url}/${id}`);
   }
 
-  async archivarDocument(id: String){
+  archivarDocument(id: String): Observable<any>{
     return this.http.patch(`${this.url}/${id}`, {});
   }
 
