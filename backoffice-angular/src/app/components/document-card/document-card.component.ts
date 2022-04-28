@@ -8,7 +8,6 @@ import { DocumentModel } from 'src/app/shared/models/DocumentModel';
   styleUrls: ['./document-card.component.css'],
 })
 export class DocumentCardComponent implements OnInit {
-
   @Input()
   documento: DocumentModel = new DocumentModel();
 
@@ -27,14 +26,25 @@ export class DocumentCardComponent implements OnInit {
     */
   }
 
-
   archivarDocumento() {
     this.apiService.archivarDocument(this.documento._id!).subscribe(
-      data => {
+      (data) => {
         window.location.reload();
-      }, err => {
-        console.log(err)
+      },
+      (err) => {
+        console.log(err);
       }
-    )
+    );
+  }
+
+  eliminarDocumento() {
+    this.apiService.deleteDocument(this.documento._id!).subscribe(
+      (data) => {
+        window.location.reload();
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 }

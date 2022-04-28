@@ -17,8 +17,10 @@
     </blockquote>
     <!-- Usar una pipe para poner la fecha tb en español y decorarla-->
     <p class="card-link">{{ documento.date | date: 'medium' }}</p>
-    <div class="d-flex justify-content-center">
-      <button type="button" class="btn btn-info" (click)="archivarDocumento()">🗒️Archivar🗒️</button>
+    <div class="d-flex justify-content-center" >
+      <button *ngIf="!documento.archiveDate" type="button" class="btn btn-info" (click)="archivarDocumento()">🗒️Archivar🗒️</button>
+      <button *ngIf="documento.archiveDate" type="button" class="btn btn-danger" (click)="eliminarDocumento()">❌Eliminar❌</button>
+
     </div>
   </div>
 </div>
