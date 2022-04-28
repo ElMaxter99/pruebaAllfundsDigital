@@ -1,9 +1,24 @@
-<div class="card" style="width: 18rem;">
-    <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-      <a href="#" class="card-link">Card link</a>
-      <a href="#" class="card-link">Another link</a>
+<div class="card my-3">
+  <div class="card-header" >
+    {{ documento.description}}
+  </div>
+
+  <div class="card-body border border-danger mh">
+    <blockquote class="blockquote mb-0" >
+        <div class="caja">
+          <p class="texto">
+            {{ documento.content }}
+          </p>
+        </div>
+      <footer class="blockquote-footer">"{{ documento.author }}"<cite title="{{ documento.title }}"
+          >Source Title</cite
+        >
+      </footer>
+    </blockquote>
+    <!-- Usar una pipe para poner la fecha tb en español y decorarla-->
+    <p class="card-link">{{ documento.date | date: 'medium' }}</p>
+    <div class="d-flex justify-content-center">
+      <button type="button" class="btn btn-info" (click)="archivarDocumento()">🗒️Archivar🗒️</button>
     </div>
   </div>
+</div>

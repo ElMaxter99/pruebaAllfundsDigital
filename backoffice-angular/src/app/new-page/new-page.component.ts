@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiServiceService } from '../services/api-service.service';
 
 @Component({
   selector: 'app-new-page',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private apiService: ApiServiceService) { }
+
+  newDocumentsList!: any
 
   ngOnInit(): void {
+    this.apiService.getDocuments(false).subscribe(data => {
+      console.log(data);
+      this.newDocumentsList = data;
+      console.log(this.newDocumentsList);
+  }, err => {
+    console.log(err)
+  }
+  );
   }
 
 }
