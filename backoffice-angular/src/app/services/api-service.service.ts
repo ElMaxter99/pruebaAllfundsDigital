@@ -1,20 +1,20 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject, tap } from 'rxjs';
-import { DocumentModel } from '../shared/models/DocumentModel';
+import { Socket, io } from 'socket.io-client';
+import { Observable, tap } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class ApiServiceService {
-
-  private URI: string = "http://localhost:8000"
+  // podria ponerlo en envoriment tb 
   private endPoint: string = "/v1/documents";
-  private url = this.URI+this.endPoint;
 
-  private _refresh$ = new Subject<void> ();
+  private url = environment.API_URI+this.endPoint;
 
+  socket!: Socket
 
 
 
@@ -37,11 +37,7 @@ export class ApiServiceService {
   getDocuments(archivedDocument: Boolean): Observable<any>{
     
     let params = new HttpParams().set('filtro', String(archivedDocument));
-    return this.http.get(this.url, {params}).pipe(
-      tap(()=> {
-        this._refresh$.next();
-      })
-      )
+    return this.http.get(this.url, {params})
 
     
   }
@@ -61,12 +57,34 @@ export class ApiServiceService {
 
 
   /**
-   * EXTRA
+   * Socket
    */
-
-  get refresh$() {
-    return this._refresh$;
+  /**
+   * 
+   * @param event -> Selecciona a que "escucha" estará subscrita
+   * newDocEvent -> documentos nuevos
+   * archiveDocEvent -> Documentos archivados
+   */
+  connectSocket(pageName: string) {
+    this.socket = io(environment.SOCKET_ENDPOINT)
+    this.socket.emit('joinPage', {pageName: pageName});
   }
 
+  sendDocUpdate(pageName: string) {
+    console.log("sendDocUpdate")
+    this.socket = io(environment.SOCKET_ENDPOINT)
+    this.socket.emit(pageName);
+  }
+
+  recieveDocUpdate() {
+    return new Observable((observer) => {
+      this.socket.on('test', (test) => {
+        console.log(test);
+        console.log("recieveDocUpdate")
+        observer.next()
+      })
+    
+    });
+  }
 
 }
