@@ -14,8 +14,10 @@ export class ArchivedPageComponent implements OnInit {
   constructor(private router: Router, private apiService: ApiServiceService) {}
 
   ngOnInit(): void {
-    this.apiService.connectSocket(this.router.url);
+    this.apiService.connectSocket();
     this.getDocuments();
+    this.recieveDocUpdate();
+
   }
 
   async getDocuments() {
@@ -27,5 +29,12 @@ export class ArchivedPageComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+
+  recieveDocUpdate() {
+    this.apiService.recieveDocUpdate().subscribe((data) => {
+      this.getDocuments();
+    });
   }
 }

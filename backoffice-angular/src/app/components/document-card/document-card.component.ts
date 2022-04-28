@@ -14,25 +14,23 @@ export class DocumentCardComponent implements OnInit {
 
   constructor(private apiService: ApiServiceService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   async archivarDocumento() {
     await this.apiService.archivarDocument(this.documento._id!).subscribe(
       (data) => {
-        window.location.reload();
+        this.apiService.sendDocUpdate();
       },
       (err) => {
         console.log(err);
       }
     );
-    
   }
 
   async eliminarDocumento() {
     await this.apiService.deleteDocument(this.documento._id!).subscribe(
       (data) => {
-        window.location.reload();
+        this.apiService.sendDocUpdate();
       },
       (err) => {
         console.log(err);

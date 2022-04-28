@@ -34,27 +34,19 @@ const OPTIONS = {
 };
 
 io.on("connection", (socket) => {
-    console.log(socket.id);
-  
-    socket.on("/new-page", () => {
-        console.log("/new-page----->"+socket.id);
-        io.to("/new-page").emit("test", "testa")
-        console.log("/new-page----->"+socket.id);
-    });
+  console.log(socket.id);
 
-    socket.on("/archived-page", ({ nombre }) => {
-        console.log("/archived-page----->"+socket.id);
-        io.to("/archived-page").emit("test", "testb")
-        console.log("/archived-page----->"+socket.id);
-
-
-    });
-
-      socket.on("joinPage",({ pageName }) => {
-          socket.join(pageName);
-          console.log("El usuario "+socket.id+" esta subscrito a " + pageName);
-      } )
+  socket.on("reloadDocs", () => {
+    console.log("reloadDocs----->" + socket.id);
+    io.to("reloadDocs").emit("test", "testb");
+    console.log("/reloadDocs----->" + socket.id);
   });
+
+  socket.on("joinPage", () => {
+    socket.join("reloadDocs");
+    console.log("El usuario " + socket.id + " esta subscrito a reloadDocs");
+  });
+});
 
 // Abriendo la conexión a mongoDB Atlas
 

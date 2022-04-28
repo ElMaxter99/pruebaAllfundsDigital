@@ -14,9 +14,9 @@ export class NewPageComponent implements OnInit {
   constructor(private router: Router, private apiService: ApiServiceService) {}
 
   ngOnInit(): void {
-    this.apiService.connectSocket(this.router.url);
-    this.recieveDocUpdate();
+    this.apiService.connectSocket();
     this.getDocuments();
+    this.recieveDocUpdate();
   }
 
   async getDocuments() {
@@ -30,31 +30,26 @@ export class NewPageComponent implements OnInit {
     );
   }
 
-  //Enviar form 
+  //Enviar form
   onSubmit(f: NgForm) {
     this.addDocument(f.value);
     f.reset();
-    this.apiService.sendDocUpdate(this.router.url);
+    this.apiService.sendDocUpdate();
   }
 
   // hacer peticion crear document
   async addDocument(f: any) {
     await this.apiService.createDocument(f).subscribe(
-      (data) => {
-        
-      },
+      (data) => {},
       (err) => {
         console.log(err);
       }
     );
   }
 
-  async recieveDocUpdate(){
-   await this.apiService.recieveDocUpdate().subscribe((data) => {
-    this.getDocuments();
-
-  })
-
+  recieveDocUpdate() {
+    this.apiService.recieveDocUpdate().subscribe((data) => {
+      this.getDocuments();
+    });
   }
-
 }

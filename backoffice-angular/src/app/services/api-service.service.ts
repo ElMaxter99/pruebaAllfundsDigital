@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Socket, io } from 'socket.io-client';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -65,22 +65,19 @@ export class ApiServiceService {
    * newDocEvent -> documentos nuevos
    * archiveDocEvent -> Documentos archivados
    */
-  connectSocket(pageName: string) {
+  connectSocket() {
     this.socket = io(environment.SOCKET_ENDPOINT)
-    this.socket.emit('joinPage', {pageName: pageName});
+    this.socket.emit('joinPage');
   }
 
-  sendDocUpdate(pageName: string) {
-    console.log("sendDocUpdate")
+  sendDocUpdate() {
     this.socket = io(environment.SOCKET_ENDPOINT)
-    this.socket.emit(pageName);
+    this.socket.emit("reloadDocs", {test:"test"});
   }
 
   recieveDocUpdate() {
     return new Observable((observer) => {
       this.socket.on('test', (test) => {
-        console.log(test);
-        console.log("recieveDocUpdate")
         observer.next()
       })
     
