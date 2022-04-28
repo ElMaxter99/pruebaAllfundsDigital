@@ -25,11 +25,12 @@ module.exports = {
     },
 
     async createDocument(req, res) {
-
-        if (!req.body.title) return res.sendStatus(400);
-        if (!req.body.description) return res.sendStatus(400);
-        if (!req.body.content) return res.sendStatus(400);
-        if (!req.body.author) return res.sendStatus(400);
+        console.log(req.body); 
+        // Lo correcto no seria devolver asi la respuesta, pero lo dejo para desmotracion :)
+        if (!req.body.title) return res.status(400).json({mensaje:"No ha llegado el title"});
+        if (!req.body.description) return res.status(400).json({mensaje:"No ha llegado el description"});
+        if (!req.body.content) return res.status(400).json({mensaje:"No ha llegado el content"});
+        if (!req.body.author) return res.status(400).json({mensaje:"No ha llegado el author"});
 
 
 
