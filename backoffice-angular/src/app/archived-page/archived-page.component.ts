@@ -17,6 +17,7 @@ export class ArchivedPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getDocuments();
     // Optimizar la subscripcion
+    console.log("Abriendo observable...");
     this.suscription = this.apiService.refresh$.subscribe(()=> {
       this.getDocuments();
 

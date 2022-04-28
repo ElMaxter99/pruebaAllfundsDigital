@@ -29,7 +29,7 @@ export class DocumentCardComponent implements OnInit {
   archivarDocumento() {
     this.apiService.archivarDocument(this.documento._id!).subscribe(
       (data) => {
-        window.location.reload();
+        console.log(data)
       },
       (err) => {
         console.log(err);
@@ -40,7 +40,7 @@ export class DocumentCardComponent implements OnInit {
   eliminarDocumento() {
     this.apiService.deleteDocument(this.documento._id!).subscribe(
       (data) => {
-        window.location.reload();
+        console.log(data)
       },
       (err) => {
         console.log(err);
